@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ForgotPass extends StatefulWidget {
   const ForgotPass({super.key});
@@ -11,9 +12,33 @@ class ForgotPass extends StatefulWidget {
 class _ForgotPassState extends State<ForgotPass> {
   TextEditingController email=TextEditingController();
 
-  reset()async{
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+  reset() async {
+  final String emailText = email.text.trim();
+
+  if (emailText.isEmpty) {
+    Get.snackbar('Error', 'Please enter your email');
+    return;
   }
+
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: emailText);
+    Get.snackbar('Success', 'Password reset link sent to your email');
+  } on FirebaseAuthException catch (e) {
+    String errorMessage;
+
+    if (e.code == 'invalid-email') {
+      errorMessage = 'The email address is not valid.';
+    } else if (e.code == 'user-not-found') {
+      errorMessage = 'No user found with this email.';
+    } else {
+      errorMessage = e.message ?? 'Failed to send reset link.';
+    }
+
+    Get.snackbar('Reset Failed', errorMessage);
+  } catch (e) {
+    Get.snackbar('Error', 'Something went wrong. Please try again.');
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

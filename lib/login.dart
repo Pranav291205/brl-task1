@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteranew/forgotpass.dart';
+import 'package:flutteranew/googlesignin.dart';
+// ignore: unused_import
+import 'package:flutteranew/homepage.dart';
 import 'package:flutteranew/signup.dart';
 import 'package:get/get.dart';
 
@@ -52,7 +55,9 @@ class _LoginState extends State<Login> {
             ElevatedButton(onPressed:(()=>Get.to(Signup())), child: Text("Register Now")),
             SizedBox(height: 30,),
             ElevatedButton(onPressed:(()=>Get.to(ForgotPass())), child: Text("Forgot Password ?"))
-          ],
+            //SizedBox(height: 30,),
+            //ElevatedButton(onPressed:(()=>Get.to(Google())), child: Text("Sign In with google")),
+          ]
         ),
       ),
     );
